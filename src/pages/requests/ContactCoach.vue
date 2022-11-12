@@ -1,5 +1,5 @@
 <template>
-  <h1>Hello World</h1>
+  <h1>Contact a Coach</h1>
 </template>
 
 <script>
