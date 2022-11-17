@@ -20,7 +20,10 @@ export default {
       id: userId
     });
   },
-  async loadCoaches(context) {
+  async loadCoaches(context, payload) {
+    if (!payload.forceRefresh && !context.getters.shouldUpdate) {
+      return;
+    }
     const response = await fetch(`https://vue-demo-d2253-default-rtdb.firebaseio.com//coaches/.json`);
     const responseData = await response.json();
 
@@ -37,12 +40,13 @@ export default {
         firstName: responseData[key].firstName,
         lastName: responseData[key].lastName,
         description: responseData[key].description,
-        hourlyRate: responseData[key].rate,
+        hourlyRate: responseData[key].hourlyRate,
         areas: responseData[key].areas
       };
       coaches.push(coach);
     }
 
     context.commit('setCoaches', coaches);
+    context.commit('setFetchTimestamp');
   }
 };
